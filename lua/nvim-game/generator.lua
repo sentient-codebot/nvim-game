@@ -27,11 +27,11 @@ local function is_operator(binding)
   return false
 end
 
-function M.generate_operator_exercise(binding)
+function M.generate_operator_exercise(binding, snippet)
   return {
     type = 'operator',
-    instruction = "Apply '" .. binding.lhs .. "' (" .. binding.desc .. ") to the text.",
-    text = M.get_random_text(),
+    instruction = "Apply '" .. binding.lhs .. "' (" .. binding.desc .. ") to the code.",
+    text = snippet or M.get_random_text(),
     target = "TODO: Simulating outcome for " .. binding.lhs
   }
 end
@@ -44,9 +44,15 @@ function M.generate_command_exercise(binding)
   }
 end
 
-function M.generate(binding)
+function M.generate(binding, deck)
+  -- deck is a list of code snippets
+  local snippet = nil
+  if deck and #deck > 0 then
+    snippet = deck[math.random(#deck)]
+  end
+
   if is_operator(binding) then
-    return M.generate_operator_exercise(binding)
+    return M.generate_operator_exercise(binding, snippet)
   else
     return M.generate_command_exercise(binding)
   end

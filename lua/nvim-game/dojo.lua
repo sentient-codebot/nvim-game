@@ -1,5 +1,6 @@
 local analyzer = require('nvim-game.analyzer')
 local generator = require('nvim-game.generator')
+local miner = require('nvim-game.miner')
 local ui = require('nvim-game.ui')
 
 local M = {}
@@ -7,7 +8,8 @@ local M = {}
 M.state = {
   active = false,
   current_card = nil,
-  score = 0
+  score = 0,
+  deck = {}
 }
 
 function M.start_session()
@@ -25,6 +27,14 @@ function M.start_session()
   M.state.active = true
   M.state.score = 0
   
+  -- Load snippets
+  local corpus = vim.fn.stdpath('data') .. '/nvim-game/corpus'
+  -- Minimal check if corpus exists (assume user has cloned something there as per instructions)
+  M.state.deck = miner.mine(corpus)
+  if #M.state.deck == 0 then
+      print("Warning: No python snippets found in " .. corpus .. ". Using default sentences.")
+  end
+
   M.next_round(bindings)
 end
 
@@ -33,7 +43,7 @@ function M.next_round(bindings)
   
   -- Pick random binding
   local binding = bindings[math.random(#bindings)]
-  local card = generator.generate(binding)
+  local card = generator.generate(binding, M.state.deck)
   M.state.current_card = card
   
   ui.render_card(card)

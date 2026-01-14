@@ -60,7 +60,7 @@ Build a mini-game running inside Neovim to practice custom keybindings and plugi
     - [x] **Tree-sitter Integration**: Implement logic to extract functions/classes from Python files.
     - [ ] Design the data structure for an "Exercise".
     - [x] Create/Curate a library of source Python files to harvest snippets from (Using `requests` repo).
-    - [ ] Implement the `Exercise Generator` linking bindings to Tree-sitter snippets.
+    - [x] Implement the `Exercise Generator` linking bindings to Tree-sitter snippets.
 
 - [ ] **Phase 3: Game Core**
     - [ ] Implement the prompt/flashcard UI.
