@@ -31,7 +31,7 @@ Build a mini-game running inside Neovim to practice custom keybindings and plugi
     *   **Purpose**: scalable storage for the "Exercise Base".
     *   **Format**: Likely JSON or Lua tables.
     *   **Content**: "Real practical exercises in Python code snippets."
-    *   **Status**: [ ] Planned.
+    *   **Status**: [x] Implemented (Basic JSON persistence).
 
 5.  **Game Engine**
     *   **Purpose**: Manages the game loop.
@@ -56,9 +56,9 @@ Build a mini-game running inside Neovim to practice custom keybindings and plugi
     - [x] Filter for meaningful mappings (those with `desc`).
     - [x] Basic plugin detection.
 
-- [ ] **Phase 2: Exercise Foundation**
+- [x] **Phase 2: Exercise Foundation**
     - [x] **Tree-sitter Integration**: Implement logic to extract functions/classes from Python files.
-    - [ ] Design the data structure for an "Exercise".
+    - [x] Design the data structure for an "Exercise".
     - [x] Create/Curate a library of source Python files to harvest snippets from (Using `requests` repo).
     - [x] Implement the `Exercise Generator` linking bindings to Tree-sitter snippets.
 

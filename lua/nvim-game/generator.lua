@@ -36,11 +36,12 @@ function M.generate_operator_exercise(binding, snippet)
   }
 end
 
-function M.generate_command_exercise(binding)
+function M.generate_command_exercise(binding, snippet)
   return {
     type = 'command',
     instruction = "Perform the action: " .. binding.desc,
-    expected_keys = binding.lhs
+    expected_keys = binding.lhs,
+    text = snippet or M.get_random_text()
   }
 end
 
@@ -54,7 +55,7 @@ function M.generate(binding, deck)
   if is_operator(binding) then
     return M.generate_operator_exercise(binding, snippet)
   else
-    return M.generate_command_exercise(binding)
+    return M.generate_command_exercise(binding, snippet)
   end
 end
 
