@@ -25,7 +25,7 @@ Build a mini-game running inside Neovim to practice custom keybindings and plugi
         *   `Question`: The task (e.g., "Use Telescope to find a file").
         *   `Snippet`: Code context (real Python function/class).
         *   `Expected Action`: The keybinding to press.
-    *   **Status**: [ ] Planned.
+    *   **Status**: [x] Implemented.
 
 4.  **Exercise Database**
     *   **Purpose**: scalable storage for the "Exercise Base".
