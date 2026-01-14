@@ -9,7 +9,8 @@ M.state = {
   active = false,
   current_card = nil,
   score = 0,
-  deck = {}
+  deck = {},
+  bindings = {}
 }
 
 function M.start_session()
@@ -23,54 +24,54 @@ function M.start_session()
     print("No meaningful bindings found! Add some 'desc' fields to your keymaps.")
     return
   end
+  M.state.bindings = bindings
   
   M.state.active = true
   M.state.score = 0
   
   -- Load snippets
   local corpus = vim.fn.stdpath('data') .. '/nvim-game/corpus'
-  -- Minimal check if corpus exists (assume user has cloned something there as per instructions)
   M.state.deck = miner.mine(corpus)
   if #M.state.deck == 0 then
       print("Warning: No python snippets found in " .. corpus .. ". Using default sentences.")
   end
 
-  M.next_round(bindings)
+  M.next_round()
 end
 
-function M.next_round(bindings)
+function M.next_round()
   if not M.state.active then return end
   
   -- Pick random binding
-  local binding = bindings[math.random(#bindings)]
+  local binding = M.state.bindings[math.random(#M.state.bindings)]
   local card = generator.generate(binding, M.state.deck)
   M.state.current_card = card
   
-  ui.render_card(card)
+  -- Render Question
+  ui.render_question(card)
   
-  -- Setup input verification
-  if card.type == 'command' then
-    M.wait_for_command(card)
-  else
-    M.setup_scratch_pad(card)
-  end
+  -- Bind Keys for Question State
+  ui.map_key('<CR>', M.reveal_answer)
+  ui.map_key('q', M.stop_session)
+end
+
+function M.reveal_answer()
+  if not M.state.active or not M.state.current_card then return end
+  
+  ui.reveal_answer(M.state.current_card)
+  
+  -- Bind Keys for Answer State
+  ui.map_key('<Space>', M.next_round)
+  ui.map_key('q', M.stop_session)
 end
 
 function M.stop_session()
   M.state.active = false
   ui.close()
-  -- Cleanup hooks/buffers here
-end
-
-function M.wait_for_command(card)
-  -- Placeholder: In real plugin, use vim.on_key
-  print("(Mock) Waiting for keys: " .. card.expected_keys)
-end
-
-function M.setup_scratch_pad(card)
-  -- Placeholder: Create buffer with text
-  -- vim.api.nvim_buf_set_lines(scratch_buf, ...)
-  print("(Mock) Setup scratch pad for: " .. card.instruction)
+  -- Clear state
+  M.state.current_card = nil
+  M.state.deck = {}
+  M.state.bindings = {}
 end
 
 return M

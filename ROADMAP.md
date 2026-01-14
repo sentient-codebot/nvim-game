@@ -63,10 +63,10 @@ Build a mini-game running inside Neovim to practice custom keybindings and plugi
     - [x] Implement the `Exercise Generator` linking bindings to Tree-sitter snippets.
     - [x] A `seed.lua` script to populate the database with exercises.
 
-- [ ] **Phase 3: Game Core**
-    - [ ] Implement the prompt/flashcard UI.
-    - [ ] Create the logic to "draw" a random card.
-    - [ ] Build the mechanism to show the "Answer".
+- [x] **Phase 3: Game Core**
+    - [x] Implement the prompt/flashcard UI.
+    - [x] Create the logic to "draw" a random card.
+    - [x] Build the mechanism to show the "Answer".
 
 - [ ] **Phase 4: Interaction & Instructions**
     - [ ] Add commands to Launch/Close the game.

@@ -2,7 +2,9 @@ package.path = package.path .. ';./lua/?.lua'
 
 -- Mock dependencies
 local mock_ui = {
-  render_card = function(card) end,
+  render_question = function(card) end,
+  reveal_answer = function(card) end,
+  map_key = function(lhs, cb) end,
   close = function() end
 }
 
@@ -13,8 +15,14 @@ local mock_analyzer = {
 }
 
 local mock_generator = {
-  generate = function(binding)
-    return { type = 'command', instruction = 'Mock instruction', expected_keys = binding.lhs }
+  generate = function(binding, deck)
+    return { type = 'command', instruction = 'Mock instruction', expected_keys = binding.lhs, answer = binding.lhs }
+  end
+}
+
+local mock_miner = {
+  mine = function(path)
+    return { "print('hello')" }
   end
 }
 
@@ -24,6 +32,7 @@ require = function(mod)
   if mod == 'nvim-game.ui' then return mock_ui
   elseif mod == 'nvim-game.analyzer' then return mock_analyzer
   elseif mod == 'nvim-game.generator' then return mock_generator
+  elseif mod == 'nvim-game.miner' then return mock_miner
   else return old_require(mod) end
 end
 
@@ -38,14 +47,23 @@ print("Testing nvim-game.dojo...")
 
 -- Test Start Session
 local rendered = false
-mock_ui.render_card = function(card) 
+mock_ui.render_question = function(card) 
   rendered = true
   assert(card.type == 'command', "Should generate command card")
 end
 
 dojo.start_session()
 assert(dojo.state.active, "Game should be active")
-assert(rendered, "UI should render card")
+assert(rendered, "UI should render card (render_question)")
+
+-- Test Reveal Answer
+local revealed = false
+mock_ui.reveal_answer = function(card)
+  revealed = true
+end
+
+dojo.reveal_answer()
+assert(revealed, "UI should reveal answer")
 
 -- Test Stop Session
 local closed = false

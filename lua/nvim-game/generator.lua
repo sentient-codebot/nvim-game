@@ -30,9 +30,10 @@ end
 function M.generate_operator_exercise(binding, snippet)
   return {
     type = 'operator',
-    instruction = "Apply '" .. binding.lhs .. "' (" .. binding.desc .. ") to the code.",
+    instruction = "Apply action: " .. binding.desc,
     text = snippet or M.get_random_text(),
-    target = "TODO: Simulating outcome for " .. binding.lhs
+    target = "TODO: Simulating outcome for " .. binding.lhs,
+    answer = binding.lhs
   }
 end
 
@@ -41,7 +42,8 @@ function M.generate_command_exercise(binding, snippet)
     type = 'command',
     instruction = "Perform the action: " .. binding.desc,
     expected_keys = binding.lhs,
-    text = snippet or M.get_random_text()
+    text = snippet or M.get_random_text(),
+    answer = binding.lhs
   }
 end
 
