@@ -61,6 +61,7 @@ Build a mini-game running inside Neovim to practice custom keybindings and plugi
     - [x] Design the data structure for an "Exercise".
     - [x] Create/Curate a library of source Python files to harvest snippets from (Using `requests` repo).
     - [x] Implement the `Exercise Generator` linking bindings to Tree-sitter snippets.
+    - [x] A `seed.lua` script to populate the database with exercises.
 
 - [ ] **Phase 3: Game Core**
     - [ ] Implement the prompt/flashcard UI.
